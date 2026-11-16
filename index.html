@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#121211">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Finanças">
+  <title>Finanças</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Tela de bloqueio -->
+  <section id="bloqueio" class="bloqueio">
+    <div class="bloqueio-caixa">
+      <img src="icons/icon.svg" alt="" width="64" height="64">
+      <h1>Finanças</h1>
+      <p class="muted">Digite a senha do app para abrir seus dados.</p>
+      <form id="form-senha" autocomplete="off">
+        <input id="senha" type="password" inputmode="text" placeholder="Senha" autocomplete="current-password" required>
+        <label class="check"><input id="lembrar" type="checkbox" checked> Lembrar neste aparelho</label>
+        <button type="submit" id="btn-abrir">Abrir</button>
+        <p id="erro-senha" class="erro" role="alert"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- App -->
+  <div id="app" hidden>
+    <header class="topo">
+      <div>
+        <h1 id="titulo">Resumo</h1>
+        <p id="atualizado" class="muted small"></p>
+      </div>
+      <button id="btn-olho" class="icone" aria-label="Ocultar valores" title="Ocultar valores">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 5c-5 0-9 4.5-10 7 1 2.5 5 7 10 7s9-4.5 10-7c-1-2.5-5-7-10-7zm0 11a4 4 0 110-8 4 4 0 010 8zm0-2a2 2 0 100-4 2 2 0 000 4z"/></svg>
+      </button>
+    </header>
+
+    <div id="avisos"></div>
+
+    <main>
+      <section id="aba-resumo" class="aba"></section>
+      <section id="aba-gastos" class="aba" hidden></section>
+      <section id="aba-investimentos" class="aba" hidden></section>
+    </main>
+
+    <nav class="abas" role="tablist">
+      <button role="tab" data-aba="resumo" aria-selected="true">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 13h6V4H4v9zm0 7h6v-5H4v5zm10 0h6v-9h-6v9zm0-16v5h6V4h-6z"/></svg>
+        Resumo
+      </button>
+      <button role="tab" data-aba="gastos" aria-selected="false">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M5 19h3V9H5v10zm5.5 0h3V5h-3v14zM16 19h3v-6h-3v6z"/></svg>
+        Gastos
+      </button>
+      <button role="tab" data-aba="investimentos" aria-selected="false">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 17l6-6 4 4 7-7v5h2V3h-10v2h5l-4 4-4-4-8 8 2 2z"/></svg>
+        Investimentos
+      </button>
+    </nav>
+  </div>
+
+  <div id="tooltip" class="tooltip" hidden></div>
+
+  <!-- Modal investimento manual -->
+  <dialog id="dlg-manual">
+    <form method="dialog" id="form-manual">
+      <h2>Adicionar investimento</h2>
+      <p class="muted small">Para o que não vier pelo Open Finance. Fica salvo só neste aparelho.</p>
+      <label>Nome <input name="nome" required placeholder="Ex.: CDB Nu Invest 2028"></label>
+      <label>Tipo
+        <select name="tipo">
+          <option value="FIXED_INCOME">Renda fixa</option>
+          <option value="MUTUAL_FUND">Fundos</option>
+          <option value="EQUITY">Ações</option>
+          <option value="ETF">ETFs</option>
+          <option value="OTHER">Outros</option>
+        </select>
+      </label>
+      <label>Valor atual (R$) <input name="saldo" required inputmode="decimal" placeholder="1000,00"></label>
+      <label>Valor aplicado (R$, opcional) <input name="aplicado" inputmode="decimal"></label>
+      <div class="linha-botoes">
+        <button value="cancel" formnovalidate class="secundario">Cancelar</button>
+        <button value="ok" id="btn-salvar-manual">Salvar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
